@@ -1,0 +1,18 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+visible = np.random.randint(0,2,(6,6))
+kernel = np.random.rand(3,3)
+
+result = np.zeros((4,4))
+
+for i in range(4):
+    for j in range(4):
+        result[i,j] = np.sum(visible[i:i+3,j:j+3] * kernel)
+
+print("Visible Layer:\n", visible)
+print("Convolution Result:\n", result)
+
+plt.imshow(result, cmap='gray')
+plt.title("Boltzmann Machine Simulation")
+plt.show()

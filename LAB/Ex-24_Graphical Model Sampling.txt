@@ -1,0 +1,19 @@
+!pip install pgmpy
+from pgmpy.models import DiscreteBayesianNetwork
+from pgmpy.factors.discrete import TabularCPD
+from pgmpy.sampling import BayesianModelSampling
+
+model = DiscreteBayesianNetwork([('Rain', 'WetGround')])
+
+cpd1 = TabularCPD('Rain', 2, [[0.7],[0.3]])
+
+cpd2 = TabularCPD('WetGround', 2,
+                  [[0.9,0.2],[0.1,0.8]],
+                  evidence=['Rain'], evidence_card=[2])
+
+model.add_cpds(cpd1, cpd2)
+
+print("Model Valid:", model.check_model())
+
+samples = BayesianModelSampling(model).forward_sample(size=10)
+print("Generated Samples:\n", samples)

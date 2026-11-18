@@ -1,0 +1,20 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+
+actual = np.random.rand(100)
+vae = actual + np.random.normal(0,0.1,100)
+gan = actual + np.random.normal(0,0.2,100)
+
+print("VAE MSE:", mean_squared_error(actual, vae))
+print("GAN MSE:", mean_squared_error(actual, gan))
+
+print("VAE MAE:", mean_absolute_error(actual, vae))
+print("GAN MAE:", mean_absolute_error(actual, gan))
+
+plt.plot(actual, label='Actual')
+plt.plot(vae, label='VAE')
+plt.plot(gan, label='GAN')
+plt.legend()
+plt.title("Generative Model Comparison")
+plt.show()

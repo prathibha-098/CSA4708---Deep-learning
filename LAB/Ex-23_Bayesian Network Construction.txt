@@ -1,0 +1,19 @@
+!pip install pgmpy
+import networkx as nx
+import matplotlib.pyplot as plt
+from pgmpy.models import DiscreteBayesianNetwork
+
+model = DiscreteBayesianNetwork([
+    ('Rain', 'WetGround'),
+    ('Sprinkler', 'WetGround')
+])
+
+G = nx.DiGraph(model.edges())
+
+nx.draw(G, with_labels=True, node_color='lightblue',
+        node_size=2500, arrows=True)
+
+plt.title("Bayesian Network")
+plt.show()
+
+print("Bayesian Network Created Successfully")

@@ -1,0 +1,14 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+visible = np.random.randint(0,2,6)
+weights = np.random.rand(6,3)
+
+for i in range(10):
+    hidden = (np.dot(visible, weights) > 0.8).astype(int)
+    visible = (np.dot(hidden, weights.T) > 0.8).astype(int)
+    print("Step", i+1, "Visible:", visible)
+
+plt.imshow([visible], cmap='gray')
+plt.title("Gibbs Sampling")
+plt.show()
