@@ -1,0 +1,18 @@
+import numpy as np
+
+X = np.array([[1, 0]])
+Y = np.array([[1]])
+W1 = np.random.rand(2, 3)
+W2 = np.random.rand(3, 1)
+sig = lambda x: 1 / (1 + np.exp(-x))
+
+H = sig(X @ W1)
+O = sig(H @ W2)
+dO = (O - Y) * O * (1 - O)
+dH = (dO @ W2.T) * H * (1 - H)
+
+W2 -= 0.1 * H.T @ dO
+W1 -= 0.1 * X.T @ dH
+
+print("Output:", O)
+print("Updated Weights:", W1, W2)

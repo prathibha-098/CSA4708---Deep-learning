@@ -1,0 +1,21 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+
+T = 20
+W = 0.5
+gradients = []
+
+for t in range(T):
+    gradient = W ** t
+    gradients.append(abs(gradient))
+
+plt.plot(range(T), gradients, marker="o")
+plt.xlabel("Time Step")
+plt.ylabel("Gradient Magnitude")
+plt.title("BPTT Gradient Analysis")
+plt.show()
+
+print("Initial Gradient:", gradients[0])
+print("Final Gradient:", gradients[-1])

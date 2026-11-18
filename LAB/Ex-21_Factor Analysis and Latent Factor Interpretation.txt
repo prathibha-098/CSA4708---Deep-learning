@@ -1,0 +1,20 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.decomposition import FactorAnalysis
+from sklearn.datasets import load_iris
+from sklearn.preprocessing import StandardScaler
+
+X = StandardScaler().fit_transform(load_iris().data)
+
+fa = FactorAnalysis(n_components=2)
+result = fa.fit_transform(X)
+
+print("Latent Factors:\n", result[:5])
+print("Factor Loadings:\n", fa.components_)
+
+plt.scatter(result[:,0], result[:,1])
+plt.xlabel("Factor 1")
+plt.ylabel("Factor 2")
+plt.title("Factor Analysis")
+plt.show()

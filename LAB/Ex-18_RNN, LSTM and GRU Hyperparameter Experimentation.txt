@@ -1,0 +1,19 @@
+import tensorflow as tf
+import numpy as np
+
+X = np.random.rand(100,5,1)
+y = np.random.rand(100,1)
+
+for units in [16,32]:
+    for layer in [tf.keras.layers.SimpleRNN, tf.keras.layers.LSTM, tf.keras.layers.GRU]:
+        model = tf.keras.Sequential([
+            tf.keras.layers.Input(shape=(5,1)),
+            layer(units),
+            tf.keras.layers.Dense(1)
+        ])
+
+        model.compile(optimizer='adam', loss='mse')
+        model.fit(X, y, epochs=3, verbose=0)
+
+        print(layer.__name__, "Units:", units)
+        print("Loss:", model.evaluate(X, y, verbose=0))

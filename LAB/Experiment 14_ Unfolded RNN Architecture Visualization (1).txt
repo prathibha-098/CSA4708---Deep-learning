@@ -1,0 +1,33 @@
+import matplotlib.pyplot as plt
+import networkx as nx
+
+G = nx.DiGraph()
+
+for i in range(4):
+    G.add_node(f"X{i}", layer="input")
+    G.add_node(f"H{i}", layer="hidden")
+    G.add_node(f"Y{i}", layer="output")
+
+    G.add_edge(f"X{i}", f"H{i}")
+    G.add_edge(f"H{i}", f"Y{i}")
+
+    if i > 0:
+        G.add_edge(f"H{i-1}", f"H{i}")
+
+pos = {}
+
+for i in range(4):
+    pos[f"X{i}"] = (i, 0)
+    pos[f"H{i}"] = (i, 1)
+    pos[f"Y{i}"] = (i, 2)
+
+nx.draw(
+    G, pos,
+    with_labels=True,
+    node_size=1800,
+    font_size=10,
+    arrows=True
+)
+
+plt.title("Unfolded RNN Architecture")
+plt.show()

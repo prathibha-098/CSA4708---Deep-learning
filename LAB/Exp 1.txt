@@ -1,0 +1,75 @@
+# 1. A college develops a neural network to predict student examination scores using attendance and internal assessment marks. The model trained using Gradient Descent shows a slow decrease in loss, while the model trained using SGD shows fluctuations in loss across epochs. Analyze the training behavior of both optimizers by implementing the models using TensorFlow and Keras, storing loss values using NumPy, and plotting the loss curves using Matplotlib. Identify the possible reasons for the differences in convergence. Packages: NumPy, TensorFlow, Keras, Matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+# Set random seed
+np.random.seed(42)
+
+# Generate student data
+n = 200
+attendance = np.random.uniform(0.5, 1.0, n)
+internal = np.random.uniform(0.3, 1.0, n)
+
+X = np.column_stack([attendance, internal])
+y = (0.4 * attendance + 0.6 * internal
+     + np.random.normal(0, 0.02, n))
+
+# Function to train the model
+def train(batch_size):
+    tf.keras.utils.set_random_seed(42)
+
+    model = keras.Sequential([
+        keras.Input(shape=(2,)),
+        layers.Dense(8, activation="relu"),
+        layers.Dense(1)
+    ])
+
+    model.compile(
+        optimizer=keras.optimizers.SGD(
+            learning_rate=0.05
+        ),
+        loss="mse"
+    )
+
+    history = model.fit(
+        X, y,
+        epochs=50,
+        batch_size=batch_size,
+        verbose=0
+    )
+
+    return np.array(history.history["loss"])
+
+# Train using Gradient Descent (full batch)
+gd_loss = train(len(X))
+
+# Train using Stochastic Gradient Descent
+sgd_loss = train(1)
+
+# Display loss values
+print("GD: First loss =", gd_loss[0],
+      ", Last loss =", gd_loss[-1])
+
+print("SGD: First loss =", sgd_loss[0],
+      ", Last loss =", sgd_loss[-1])
+
+# Compare loss fluctuations
+print("GD fluctuation:",
+      np.std(np.diff(gd_loss[-20:])))
+
+print("SGD fluctuation:",
+      np.std(np.diff(sgd_loss[-20:])))
+
+# Plot loss curves
+plt.plot(gd_loss, label="Gradient Descent")
+plt.plot(sgd_loss, label="SGD")
+
+plt.xlabel("Epoch")
+plt.ylabel("Loss (MSE)")
+plt.title("Gradient Descent vs SGD")
+plt.legend()
+plt.grid()
+plt.show()

@@ -1,0 +1,33 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm, binom
+
+# Normal distribution
+x = np.linspace(-5, 5, 100)
+y = norm.pdf(x, 0, 1)
+
+plt.plot(x, y, label="Normal Distribution")
+plt.xlabel("X")
+plt.ylabel("Probability Density")
+plt.legend()
+plt.show()
+
+# Binomial distribution
+k = np.arange(0, 11)
+prob = binom.pmf(k, 10, 0.5)
+
+plt.bar(k, prob)
+plt.title("Binomial Distribution")
+plt.show()
+
+# Bayes' theorem
+P_D = 0.01
+P_Pos_D = 0.90
+P_Pos_NotD = 0.05
+
+P_D_Pos = (P_Pos_D * P_D) / (
+    P_Pos_D * P_D + P_Pos_NotD * (1 - P_D)
+)
+
+print("Probability of disease given positive test:",
+      round(P_D_Pos, 4))

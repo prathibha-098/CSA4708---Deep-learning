@@ -1,0 +1,16 @@
+import numpy as np
+from sklearn.datasets import load_iris
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import mean_squared_error
+
+X = StandardScaler().fit_transform(load_iris().data)
+
+pca = PCA(n_components=2)
+reduced = pca.fit_transform(X)
+
+reconstructed = pca.inverse_transform(reduced)
+
+print("Original Data:\n", X[:3])
+print("Reconstructed Data:\n", reconstructed[:3])
+print("Reconstruction Error:", mean_squared_error(X, reconstructed))
